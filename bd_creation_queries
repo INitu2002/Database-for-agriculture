@@ -1,3 +1,4 @@
+static/* linguist-vendored
 create table RECOLTE
 (id_recolta NUMBER(3) CONSTRAINT pk_id_produs PRIMARY KEY,
 denumire_recolta VARCHAR2(50) NOT NULL,
