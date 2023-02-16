@@ -1,4 +1,6 @@
 # Database-for-agriculture
+Baza de date este creată în limbajul SQL, folosind ca IDE aplicația Oracle SQL Developer.
+
 Proiectul este realizat pe baza a șase tabele care au ca punct central tema agriculturii, aceasta fiind o ramură a economiei naționale care, din punctul meu de vedere, merită să primească atenția cuvenită. O altă temă folosită este întâlnirea dintre cerere și ofertă.
 
 Obiectivul proiectului este acela de a descrie într-o mică măsură o parte a realității vieții de producător (cel care deține pământul, recoltele, dar și utilajele) în relația cu magazinele (piața de desfacere a produselor).
