@@ -796,12 +796,12 @@ and s.id_recolta = r.id_recolta
 and u.id_recolta = r.id_recolta
 and upper(p.nume_producator) like 'NITU';
 
-/*S? se calculeze în mod diferit suprafa?a posibil? de extindere a magazinelor
+/*S? se calculeze Ã®n mod diferit suprafa?a posibil? de extindere a magazinelor
     - Dac? suprafa?a este sub 700 m2, extinderea este de 20%
-    - Dac? suprafa?a este între 700 ?i 1000 m2, extinderea posibil? este de 35%
+    - Dac? suprafa?a este Ã®ntre 700 ?i 1000 m2, extinderea posibil? este de 35%
     - Dac? suprafa?a este de peste 1000 m2, extinderea este de maxim 40%
 S? se afi?eze toate magazinele mai pu?in cele care au faxul ce se termin? 
-în cifra 7. Sa se ordoneze toate inregistrarile dupa extindere descrescator si dupa 
+Ã®n cifra 7. Sa se ordoneze toate inregistrarile dupa extindere descrescator si dupa 
 id_magazin tot descrescator*/
 select distinct m.id_magazin, m.denumire_magazin, m.fax, 
 (CASE
@@ -823,8 +823,8 @@ where s.id_magazin = m.id_magazin
 and m.fax like '%7'
 order by POSIBILA_EXTINDERE desc, id_magazin desc;
 
-/*S? se afi?eze valoarea totala câ?tigat? în urma vânz?rii
-recoltelor doar pentru producatorii care au lungimea numelui mai mic? lecât lungimea
+/*S? se afi?eze valoarea totala cÃ¢?tigat? Ã®n urma vÃ¢nz?rii
+recoltelor doar pentru producatorii care au lungimea numelui mai mic? lecÃ¢t lungimea
 prenumelui ?i id_producator divizibil cu 2. S? se ordoneze rezultatele cresc?tor 
 dup? valoarea total?.*/
 select  p.id_producator, 
@@ -849,7 +849,7 @@ and mod(p.id_producator, 2) = 0
 group by p.nume_producator, p.prenume_producator, p.id_producator
 order by VALOARE_PER_PRODUCATOR;
 
-/*S? se afi?eze toate fructele cultivate în jude?ul Ilfov, dar ?i toate legumele din jude?ul Arge?.*/
+/*S? se afi?eze toate fructele cultivate Ã®n jude?ul Ilfov, dar ?i toate legumele din jude?ul Arge?.*/
 select r.denumire_recolta, r.categorie_recolta, lo.denumire_judet
 from recolte r, loc_recolte lo
 where lo.id_recolta = r.id_recolta
@@ -883,7 +883,7 @@ start with id_producator in (select id_producator from producatori
 order by LEVEL;
 
 /*S? se afi?eze to?i subordona?ii produc?torilor cu id_producator egal cu 310
-?i 317, care nu au subordona?i ?i care au numele terminat în vocal?.*/
+?i 317, care nu au subordona?i ?i care au numele terminat Ã®n vocal?.*/
 select distinct id_producator, nume_producator, prenume_producator, id_sef, LEVEL
 from producatori
 where CONNECT_BY_ISLEAF = 1
@@ -892,7 +892,7 @@ connect by PRIOR id_producator = id_sef
 start with id_producator in (310, 317);
 
 /*S? se afi?eze num?rul de ?efi ?i to?i subordona?ii ?efului lui Manole Tudor, care au 
-caracterul '.' în email.*/
+caracterul '.' Ã®n email.*/
 select distinct id_producator, nume_producator, id_sef, email, LEVEL as "NUMAR_SUPERIORI"
 from producatori
 where email like '%.%'
@@ -924,7 +924,7 @@ select * from r
 where categorie_recolta like 'Cereale' and pret_kg < 1.5;
 
 /*S? se creeze o secven?? pentru asigurarea unicit??ii cheii primare din tabela solicit?ri.
-S? se adauge o nou? înregistrare cu 4 pozi?ii mai avansate decât num?rul de pornire (MINVALUE).
+S? se adauge o nou? Ã®nregistrare cu 4 pozi?ii mai avansate decÃ¢t num?rul de pornire (MINVALUE).
 S? se anuleze inserarea.*/
 create SEQUENCE seq_solicitari
 start with 49 increment by 2
@@ -948,8 +948,8 @@ select * from producatori;
 select * from loc_recolte;
 select * from solicitari;
 
-/*S? se afi?eze legumele plantate în zona Muntenia Nord, pentru care s-au folosit utilaje cu mai pu?in de
-36 de luni în urm? ?i care au ca produc?tori persoane care au ca superior produc?torul cu id-ul 301.
+/*S? se afi?eze legumele plantate Ã®n zona Muntenia Nord, pentru care s-au folosit utilaje cu mai pu?in de
+36 de luni Ã®n urm? ?i care au ca produc?tori persoane care au ca superior produc?torul cu id-ul 301.
 S? se foloseasc? doar sinonime.*/
 create synonym u for utilaje;
 create synonym lo for loc_recolte;
