@@ -782,10 +782,9 @@ and lower(r.categorie_recolta) like 'legume'
 group by r.denumire_recolta, r.categorie_recolta, lo.zona, lo.denumire_judet
 order by r.denumire_recolta;
 
-/*11. S? se afi?eze denumire magazinului si suprafa?a lor pentru magazinele
-care au solicitat marfa de la producatoarea NITU, dar si denumirea recoltei si id-ul solicit?rii pentru aceasta,
-chiar dac? solicitarea nu a fost f?cut? de un
-magazin cunoscut, ci de o persoan? fizic?.*/
+/*11. Sa se afiseze denumire magazinului si suprafata lor pentru magazinele
+care au solicitat marfa de la producatoarea NITU, dar si denumirea recoltei si id-ul solicitarii pentru aceasta,
+chiar daca solicitarea nu a fost facuta de un magazin cunoscut, ci de o persoana fizica.*/
 select nvl(m.denumire_magazin, 'PERSOANA FIZICA') as "DENUMIRE_MAGAZIN", m.suprafata_magazin, 
         concat(initcap(p.nume_producator),' ') || p.prenume_producator as "NUME_COMPLET_PRODUCATOR",
         r.denumire_recolta, s.id_solicitare
@@ -796,11 +795,11 @@ and s.id_recolta = r.id_recolta
 and u.id_recolta = r.id_recolta
 and upper(p.nume_producator) like 'NITU';
 
-/*S? se calculeze în mod diferit suprafa?a posibil? de extindere a magazinelor
-    - Dac? suprafa?a este sub 700 m2, extinderea este de 20%
-    - Dac? suprafa?a este între 700 ?i 1000 m2, extinderea posibil? este de 35%
-    - Dac? suprafa?a este de peste 1000 m2, extinderea este de maxim 40%
-S? se afi?eze toate magazinele mai pu?in cele care au faxul ce se termin? 
+/*Sa se calculeze în mod diferit suprafata posibila de extindere a magazinelor
+    - Daca suprafata este sub 700 m2, extinderea este de 20%
+    - Daca suprafata este între 700 si 1000 m2, extinderea posibila este de 35%
+    - Daca suprafata este de peste 1000 m2, extinderea este de maxim 40%
+Sa se afiseze toate magazinele mai putin cele care au faxul ce se termina 
 în cifra 7. Sa se ordoneze toate inregistrarile dupa extindere descrescator si dupa 
 id_magazin tot descrescator*/
 select distinct m.id_magazin, m.denumire_magazin, m.fax, 
@@ -823,10 +822,10 @@ where s.id_magazin = m.id_magazin
 and m.fax like '%7'
 order by POSIBILA_EXTINDERE desc, id_magazin desc;
 
-/*S? se afi?eze valoarea totala câ?tigat? în urma vânz?rii
-recoltelor doar pentru producatorii care au lungimea numelui mai mic? lecât lungimea
-prenumelui ?i id_producator divizibil cu 2. S? se ordoneze rezultatele cresc?tor 
-dup? valoarea total?.*/
+/*Sa se afiseze valoarea totala câstigata în urma vânzarii
+recoltelor doar pentru producatorii care au lungimea numelui mai mica lecât lungimea
+prenumelui si id_producator divizibil cu 2. Sa se ordoneze rezultatele crescator 
+dupa valoarea totala.*/
 select  p.id_producator, 
         p.nume_producator || ' ' || p.prenume_producator as "NUME_COMPLET_PROD", 
         SUM(s.pret * s.cantitate) VALOARE_PER_PRODUCATOR
@@ -849,7 +848,7 @@ and mod(p.id_producator, 2) = 0
 group by p.nume_producator, p.prenume_producator, p.id_producator
 order by VALOARE_PER_PRODUCATOR;
 
-/*S? se afi?eze toate fructele cultivate în jude?ul Ilfov, dar ?i toate legumele din jude?ul Arge?.*/
+/*Sa se afiseze toate fructele cultivate în judetul Ilfov, dar si toate legumele din judetul Arges.*/
 select r.denumire_recolta, r.categorie_recolta, lo.denumire_judet
 from recolte r, loc_recolte lo
 where lo.id_recolta = r.id_recolta
@@ -869,9 +868,9 @@ select * from producatori;
 select * from loc_recolte;
 select * from solicitari;
 
-/*S? se afi?eze nivelul ierarhic ?i to?i superiorii produc?torilor care se afl? 
+/*Sa se afiseze nivelul ierarhic si toti superiorii producatorilor care se afla 
 pe ultimul nivel ierarhic,
-pornind de la produc?torul IVAN Mihaela, ordonati dupa nivelul ierarhic*/
+pornind de la producatorul IVAN Mihaela, ordonati dupa nivelul ierarhic*/
 select distinct id_producator, initcap(nume_producator) || ' ' || prenume_producator as "NUME_COMPLET",
     LEVEL, SYS_CONNECT_BY_PATH(id_producator, '/') CALE_IERARHICA
 from producatori
@@ -882,8 +881,8 @@ start with id_producator in (select id_producator from producatori
             where nume_producator like 'IVAN' and prenume_producator like 'Mihaela')
 order by LEVEL;
 
-/*S? se afi?eze to?i subordona?ii produc?torilor cu id_producator egal cu 310
-?i 317, care nu au subordona?i ?i care au numele terminat în vocal?.*/
+/*Sa se afiseze toti subordonatii producatorilor cu id_producator egal cu 310
+si 317, care nu au subordonati si care au numele terminat în vocala.*/
 select distinct id_producator, nume_producator, prenume_producator, id_sef, LEVEL
 from producatori
 where CONNECT_BY_ISLEAF = 1
@@ -891,7 +890,7 @@ and lower(substr(nume_producator, length(nume_producator), 1)) in ('a', 'e', 'i'
 connect by PRIOR id_producator = id_sef
 start with id_producator in (310, 317);
 
-/*S? se afi?eze num?rul de ?efi ?i to?i subordona?ii ?efului lui Manole Tudor, care au 
+/*Sa se afiseze numarul de sefi si toti subordonatii sefului lui Manole Tudor, care au 
 caracterul '.' în email.*/
 select distinct id_producator, nume_producator, id_sef, email, LEVEL as "NUMAR_SUPERIORI"
 from producatori
@@ -902,8 +901,8 @@ start with id_producator in (select id_sef from producatori where
                 
 commit;
 
-/*S? se creeze o tabel? virtual? doar cu utilajele folosite la mmunca agricol? de m?run?it
-?i s? se modifice la toate aceste utilaje durata de utilizare (s? se scad? 10% din timp).*/
+/*Sa se creeze o tabela virtuala doar cu utilajele folosite la munca agricola de maruntit
+si sa se modifice la toate aceste utilaje durata de utilizare (sa se scada 10% din timp).*/
 CREATE OR REPLACE VIEW v_utilaje_maruntit
 AS SELECT * FROM utilaje
 WHERE upper(munca_agricola) like 'MARUNTIT';
@@ -923,9 +922,9 @@ create index cereale_15 on r(categorie_recolta, pret_kg);
 select * from r
 where categorie_recolta like 'Cereale' and pret_kg < 1.5;
 
-/*S? se creeze o secven?? pentru asigurarea unicit??ii cheii primare din tabela solicit?ri.
-S? se adauge o nou? înregistrare cu 4 pozi?ii mai avansate decât num?rul de pornire (MINVALUE).
-S? se anuleze inserarea.*/
+/*Sa se creeze o secventa pentru asigurarea unicitatii cheii primare din tabela solicitari.
+Sa se adauge o noua înregistrare cu 4 pozitii mai avansate decât numarul de pornire (MINVALUE).
+Sa se anuleze inserarea.*/
 create SEQUENCE seq_solicitari
 start with 49 increment by 2
 MAXVALUE 98;
@@ -948,9 +947,9 @@ select * from producatori;
 select * from loc_recolte;
 select * from solicitari;
 
-/*S? se afi?eze legumele plantate în zona Muntenia Nord, pentru care s-au folosit utilaje cu mai pu?in de
-36 de luni în urm? ?i care au ca produc?tori persoane care au ca superior produc?torul cu id-ul 301.
-S? se foloseasc? doar sinonime.*/
+/*Sa se afiseze legumele plantate în zona Muntenia Nord, pentru care s-au folosit utilaje cu mai putin de
+36 de luni în urma si care au ca producatori persoane care au ca superior producatorul cu id-ul 301.
+Sa se foloseasca doar sinonime.*/
 create synonym u for utilaje;
 create synonym lo for loc_recolte;
 create synonym p for producatori;
@@ -965,8 +964,8 @@ and MONTHS_BETWEEN(SYSDATE, u.data_utilizare) < 36
 and p.id_sef = 301
 and r.categorie_recolta like 'Legume';
 
-/*S? se afi?eze lista cu produc?torii care nu sunt superiori niciunui alt produc?tor 
-(nu sunt produc?tor ?ef).*/
+/*Sa se afiseze lista cu producatorii care nu sunt superiori niciunui alt producator 
+(nu sunt producator sef).*/
 WITH sef AS
     (SELECT DISTINCT id_sef
     FROM producatori
